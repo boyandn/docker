@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  nginx:
+    build: .
+    image: registry.docker.cyclonis.ie/nginx
+    container_name: nginx
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+#    volumes:
+#      - "/vagrant/config/nginx/default.conf:/etc/nginx/conf.d/default.conf"
