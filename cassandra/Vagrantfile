@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.network(:private_network, {:ip=>"10.10.10.102", :nic_type=>"virtio"})
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui		= false
+    vb.memory = 4096
+    vb.cpus = 2
+    vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+  SHELL
+
+  config.vm.provision "docker", type: "shell", inline: <<-SHELL
+    wget -qO- https://get.docker.com/ | sh
+    service docker restart
+    curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+    chmod +x /usr/bin/docker-compose
+  SHELL
+
+end

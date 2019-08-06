@@ -1,0 +1,6 @@
+version: "3.7"
+services:
+  cassandra:
+    build: .
+    image: registry.docker.cyclonis.ie/cassandra
+    container_name: cassandra 
